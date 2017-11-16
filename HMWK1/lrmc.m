@@ -1,4 +1,4 @@
-function A = lrmc(X, W, tau, beta)
+function [A, mse] = lrmc(X, W, tau, beta)
     %INPUTS
     %X D*N data matrix
     %W D*N binary matrix doneting knwown (1) or missing (0) entries
@@ -25,7 +25,8 @@ function A = lrmc(X, W, tau, beta)
         
         %Check for convergence
         if norm(W.*(X - A_next), 'fro')/norm(W.*X, 'fro') < eps
-            fprintf("MSE : %0.2f\n", immse(W.*X, W.*A_next));
+            mse = immse(W.*X, W.*A_next);
+            fprintf("MSE : %0.2f\n", mse);
             break
         end
         %If not converged, proceed to the next iteration
