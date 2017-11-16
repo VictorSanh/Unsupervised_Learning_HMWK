@@ -5,33 +5,39 @@ img = {};
 W = {};
 errors = {};
 missing_entries = [0.2, 0.4, 0.6, 0.8];
+taus = [5e3, 1e4, 1e5, 1e6];
+figure(3); hold on
+% Looping over tau
+for k=1:4
+    tau = taus(k);
+    % Looping over the missing entries percentage
+    for j=1:4
+        errors{j}={};
+        % Looping on the images
+        for i=1:10
+            %Loading image
+            img{i} = loadimage(1,i);
+            %Randomly selecting the observed entries
+            W{i} = binornd(1, 1-missing_entries(j), 192, 168);
 
-% Looping on the missing entries percentage
-for j=1:4
-    errors{j}={};
-    % Looping on the images
-    for i=1:10
-        %Loading image
-        img{i} = loadimage(1,i);
-        %Randomly selecting the observed entries
-        W{i} = binornd(1, 1-missing_entries(j), 192, 168);
+            %Using Low Rank Matrix Completion to evaluate the full matrix
+            [A, errors{j}{i}] = lrmc(img{i}, W{i}, tau, 2);
 
-        %Using Low Rank Matrix Completion to evaluate the full matrix
-        [A, errors{j}{i}] = lrmc(img{i}, W{i}, 1e4, 2);
+            %Display the observed initial face
+            figure(1);
+            imshow(uint8(W{i}.*img{i}));
 
-        %Display the observed initial face
-        figure(1);
-        imshow(uint8(W{i}.*img{i}));
-
-        %Display the retrieved face
-        figure(2);
-        imshow(uint8(A));
+            %Display the retrieved face
+            figure(2);
+            imshow(uint8(A));
+        end
+        errors{j} = mean([errors{j}{:}]);
     end
-    errors{j} = mean([errors{j}{:}]);
+    
+figure(3), plot(missing_entries, [errors{:}])
 end
-
-figure()
-plot(missing_entries, [errors{:}])
+hold off
+legend()
 xlabel('Percentage of missing entries')
 ylabel('Mean MSE for 10 pictures')
 

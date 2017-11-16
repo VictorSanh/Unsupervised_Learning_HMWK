@@ -10,7 +10,7 @@ function [A, mse] = lrmc(X, W, tau, beta)
     
     
     %Other Parameters
-    max_iter = 1000;
+    max_iter = 2500;
     eps = 1e-2;
     [D, N] = size(X);
     
