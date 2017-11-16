@@ -1,4 +1,5 @@
 %% 2. Face Completion
+%% 2. Face Completion
 
 clear all
 img = {};
@@ -47,7 +48,7 @@ ylabel('Mean MSE for 10 pictures')
 %Probablement
 clear all
 
-movie = csvread('movies/ratings_medium_n4_Horror_Romance_42.csv', 1, 0);
+movie = csvread('movies/ratings_medium_n4_Horror_Romance_42.csv',1,0);
 
 p = .95;      % proportion of rows to select for training
 N = size(movie,1);  % total number of rows 
@@ -57,3 +58,13 @@ tf = tf(randperm(N));   % randomise order
 dataTraining = movie(tf,:);
 dataTesting = movie(~tf,:);
 
+%remove randomly x% of ratings in the Training database
+missing_entries = 0.5;
+tau = 1e4;
+N_train = size(dataTraining,1);
+
+%Initialization
+dataTraining_missing = dataTraining;
+
+indexes_missing_entries = binornd(1, 1-missing_entries, N_train, 1);
+dataTraining_missing(:,4,:) = dataTraining_missing(:,4,:).*(indexes_missing_entries>0); %rating on column 4
