@@ -10,7 +10,7 @@ function [A, mse] = lrmc(X, W, tau, beta)
     
     
     %Other Parameters
-    max_iter = 2500;
+    max_iter = 5000;
     eps = 1e-2;
     [D, N] = size(X);
     
@@ -25,8 +25,6 @@ function [A, mse] = lrmc(X, W, tau, beta)
         
         %Check for convergence
         if norm(W.*(X - A_next), 'fro')/norm(W.*X, 'fro') < eps
-            mse = immse(W.*X, W.*A_next);
-            fprintf("MSE : %0.2f\n", mse);
             break
         end
         %If not converged, proceed to the next iteration
@@ -35,4 +33,6 @@ function [A, mse] = lrmc(X, W, tau, beta)
     
     A = A_next;
     fprintf("Convergence reached in %i iterations\n", k);
+    mse = immse(W.*X, W.*A_next);
+    fprintf("Training MSE : %0.5f\n", mse);
 end
