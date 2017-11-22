@@ -2,7 +2,7 @@ clear all
 
 
 tau = 1e5;
-beta = 3;
+beta = 2.5;
 missing_entries = 0.2 ;
 
 
@@ -118,7 +118,7 @@ hist(Estimated - GroundTruth);
 % 0.2 ; 1e4 ; 2 ; all ; 1.64
 % 0.2 ; 1e5 ; 2 ; all ; 1.63
 % 0.2 ; 1e6 ; 2 ; all ; 4.46
-% 0.2 ; 1e5 ; 2.5 ; all ; 1.56
+% 0.2 ; 1e5 ; 2.5 ; all ; 1.51
 % 0.2 ; 1e5 ; 3 ; all ; 1.58
 
 % 0.1 ; 1e4 ; 2; horror ; 1.77
