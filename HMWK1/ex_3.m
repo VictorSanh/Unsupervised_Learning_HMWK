@@ -1,7 +1,7 @@
 clear all
 
 
-tau = 1e4;
+tau = 1e3;
 beta = 2;
 missing_entries = 0.2 ;
 
@@ -11,9 +11,9 @@ movie = readtable('movies/ratings_medium_n4_Horror_Romance_42.csv');
 
 
 %Subset a of movies
-%movie_class = "all"; %(1+2)
-movie_class = "horror"; %(1)
-%movie_class = "romance"; %(2)
+movie_class = "all"; %(1+2)
+%movie_class = "horror"; %(1)
+% movie_class = "romance"; %(2)
 
 if movie_class=="romance"
     rows = movie.genreId==2;
@@ -102,9 +102,17 @@ hist(Estimated - GroundTruth);
 
 
 % RESULTS up to now (format: missing_entries proportion, tau, beta, movie_class, MSE)
-% 0.2 ; 1e4 ; 2 ; horror ; 1.76
+% 0.2 ; 1e3 ; 2 ; romance ; 2.25
 % 0.2 ; 1e4 ; 2 ; romance ; 1.67
+% 0.2 ; 1e5 ; 2 ; romance ; 1.45
+% 0.2 ; 1e6 ; 2 ; romance ; 5.01
+% 0.2 ; 1e3 ; 2 ; all ; 2.29
 % 0.2 ; 1e4 ; 2 ; all ; 1.64
-% 0.2 ; 1e4 ; 6 ; horror ; 1.88
-% 0.2 ; 1e6 ; 2 ; horror ; 5.71
+% 0.2 ; 1e5 ; 2 ; all ; 1.63
+% 0.2 ; 1e6 ; 2 ; all ; 4.46
 % 0.2 ; 1e3 ; 2 ; horror ; 2.37
+% 0.2 ; 1e4 ; 2 ; horror ; 1.76
+% 0.2 ; 1e4 ; 6 ; horror ; 1.88
+% 0.2 ; 1e5 ; 2 ; horror ; 2.02
+% 0.2 ; 1e6 ; 2 ; horror ; 5.71
+
