@@ -1,7 +1,7 @@
 clear all
 
 
-tau = 1e5;
+tau = 1e4;
 beta = 2.5;
 missing_entries = 0.2 ;
 
@@ -103,29 +103,50 @@ hist(Estimated - GroundTruth);
 
 % RESULTS up to now (format: missing_entries proportion, tau, beta, movie_class, MSE)
 % 0.1 ; 1e5 ; 2 ; romance ; 1.67
-% 0.2 ; 1e5 ; 1.5 ; romance ; 1.67
+
 % 0.2 ; 1e3 ; 2 ; romance ; 2.25
+
+% 0.2 ; 1e4 ; 1.5 ; romance ; 1.58
 % 0.2 ; 1e4 ; 2 ; romance ; 1.67
+% 0.2 ; 1e4 ; 2.5 ; romance ; 1.47
+
+% 0.2 ; 1e5 ; 1.5 ; romance ; 1.57
 % 0.2 ; 1e5 ; 2 ; romance ; 1.45
-% 0.2 ; 1e6 ; 2 ; romance ; 5.01
 % 0.2 ; 1e5 ; 2.5 ; horror ; 1.56
+
+% 0.2 ; 1e6 ; 2 ; romance ; 5.01
+
+
+
+% 0.1 ; 1e4 ; 2; horror ; 1.77
+
+% 0.2 ; 1e3 ; 2 ; horror ; 2.37
+
+% 0.2 ; 1e4 ; 1.5 ; horror ; 1.9
+% 0.2 ; 1e4 ; 2 ; horror ; 1.76
+% 0.2 ; 1e4 ; 6 ; horror ; 1.88
+
+% 0.2 ; 1e5 ; 1.5 ; horror ; 1.78
+% 0.2 ; 1e5 ; 2 ; horror ; 2.02
+% 0.2 ; 1e5 ; 2.5 ; horror ; 1.78
+
+% 0.2 ; 1e6 ; 2 ; horror ; 5.71
+
+
 
 % 0.1 ; 1e3 ; 2 ; all ; 2.07
 % 0.1 ; 1e4 ; 2 ; all ; 1.62
 % 0.1 ; 1e5 ; 2 ; all ; 1.56
-% 0.2 ; 1e5 ; 1.5 ; all ; 1.65
+
 % 0.2 ; 1e3 ; 2 ; all ; 2.29
+
+% 0.2 ; 1e4 ; 1.5 ; all ; 1.58 
 % 0.2 ; 1e4 ; 2 ; all ; 1.64
+% 0.2 ; 1e4 ; 2.5 ; all ; 1.60
+
+% 0.2 ; 1e5 ; 1.5 ; all ; 1.65
 % 0.2 ; 1e5 ; 2 ; all ; 1.63
-% 0.2 ; 1e6 ; 2 ; all ; 4.46
 % 0.2 ; 1e5 ; 2.5 ; all ; 1.51
 % 0.2 ; 1e5 ; 3 ; all ; 1.58
 
-% 0.1 ; 1e4 ; 2; horror ; 1.77
-% 0.2 ; 1e3 ; 2 ; horror ; 2.37
-% 0.2 ; 1e4 ; 2 ; horror ; 1.76
-% 0.2 ; 1e4 ; 6 ; horror ; 1.88
-% 0.2 ; 1e5 ; 2 ; horror ; 2.02
-% 0.2 ; 1e6 ; 2 ; horror ; 5.71
-% 0.2 ; 1e5 ; 2.5 ; horror ; 1.78
-
+% 0.2 ; 1e6 ; 2 ; all ; 4.46
