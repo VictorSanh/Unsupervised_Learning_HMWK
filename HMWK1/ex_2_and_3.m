@@ -1,18 +1,19 @@
-%% 2. Face Completion
+% 2. Face Completion
 
 clear all
 img = {};
 W = {};
 errors = {};
 missing_entries = [0.2, 0.4, 0.6, 0.8];
-taus = [5e3, 1e4, 1e5, 1e6];
+taus = [5e3, 1e4, 1e5, 1e6, 1e7];
 figure(3); hold on
 % Looping over tau
-for k=1:4
+for k=1:5
     tau = taus(k);
     % Looping over the missing entries percentage
     for j=1:4
         errors{j}={};
+        mse{j} = {};
         % Looping on the images
         for i=1:10
             %Loading image
@@ -22,6 +23,7 @@ for k=1:4
 
             %Using Low Rank Matrix Completion to evaluate the full matrix
             [A, errors{j}{i}] = lrmc(img{i}, W{i}, tau, 2);
+            mse{j}{i} = immse(img{i},A); 
 
             %Display the observed initial face
             figure(1);
@@ -32,45 +34,12 @@ for k=1:4
             imshow(uint8(A));
         end
         errors{j} = mean([errors{j}{:}]);
+        mse{j} = mean([mse{j}{:}]);
     end
     
-figure(3), plot(missing_entries, [errors{:}])
+figure(3), plot(missing_entries, [mse{:}])
 end
 hold off
-legend()
+legend('tau = 5e3', 'tau = 1e4', 'tau = 1e5', 'tau = 1e6', 'tau = 1e7')
 xlabel('Percentage of missing entries')
 ylabel('Mean MSE for 10 pictures')
-
-
-%% 3. Movie Recommendation Grand Challenge.
-% c'est faux -> il faut enlever des ratings.
-%Probablement
-clear all
-
-movie = csvread('movies/ratings_medium_n4_Horror_Romance_42.csv',1,0);
-tau = 1e4;
-
-p = 0.80 ; %.95;      % proportion of rows to select for training
-N = size(movie,1);  % total number of rows 
-tf = false(N,1);    % create logical index vector
-tf(1:round(p*N)) = true;     
-tf = tf(randperm(N));   % randomise order
-
-dataTraining = movie(tf,:);
-dataTesting = movie(~tf,:);
-
-%{
-%remove the ratings in the testing database
-dataTesting(:,4,:) = 0;
-W = cat(1, dataTraining, dataTesting);
-
-%Using Low Rank Matrix Completion to evaluate the full matrix
-[A, error] = lrmc(movie, W, tau, 2);
-%}
-
-% Remove the rating of the testing data
-W = movie;
-W(:,4,:) = W(:,4,:).*(tf>0);
-
-%Using Low Rank Matrix Completion to evaluate the full matrix
-[A, error] = lrmc(movie, W, tau, 2);
