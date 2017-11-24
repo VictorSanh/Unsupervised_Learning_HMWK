@@ -14,7 +14,6 @@ for k=1:5
     tau = taus(k);
     % Looping over the missing entries percentage
     for j=1:4
-%         errors{j}={};
         mse{j} = {};
         concatenate_images = [];
         % Looping on the images
@@ -32,11 +31,7 @@ for k=1:5
         [A, errors{j}] = lrmc(concatenate_images, W, tau, 2);
         mse{j} = immse(concatenate_images,A); 
 
-%         %Display the observed initial face
-%         figure(1);
-%         imshow(uint8(W{i}.*img{i}));
-% 
-%         %Display the retrieved face
+        %Display the retrieved face
         for i=1:1
             im = reshape(A(:,i),[192,168]);
             figure();
