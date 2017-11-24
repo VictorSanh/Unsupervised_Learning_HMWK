@@ -16,7 +16,6 @@ movie_class = "all"; %(1+2)
 %movie_class = "romance"; %(2)
 
 if movie_class=="romance"
-    rows = movie.genreId==2;
     movie = movie(movie.genreId==2, :);
 elseif movie_class=="horror"
     movie = movie(movie.genreId==1, :);
@@ -78,75 +77,3 @@ fprintf("%s - MSE GroundTruth/Test: %0.2f\n", movie_class, MseTest);
 
 hist(Estimated - GroundTruth);
 
-
-
-% TO DO:
-% - Tune the parameters (tau and beta)
-
-
-% DONE:
-% - Threshold the ratings obtained (now the ratings completed are real values.
-% Sometimes it is negative, sometimes, it is higher than 5). Negative values should
-% be corrected to a 0.5 rating. Higher than 5 ratings should be corrected to
-% 5 rating. -> DONE
-% - (Optional) Threshold the obtained ratings to have a discrete range between 
-% 0.5 and 5 (initial ratings can be 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5)
-% -> DONE
-% - Sample the matrix to make it more sparse (80% training and 20% test) ->
-% DONE
-% - Create a measurement of the mean squared error between test and ground
-% truth. -> DONE
-% - Test it with only horror class (1) -> DONE
-% - Test it with only romance class (2) -> DONE
-% - Test it with horror+romance class -> DONE
-
-
-% RESULTS up to now (format: missing_entries proportion, tau, beta, movie_class, MSE)
-% 0.1 ; 1e5 ; 2 ; romance ; 1.67
-
-% 0.2 ; 1e3 ; 2 ; romance ; 2.25
-
-% 0.2 ; 1e4 ; 1.5 ; romance ; 1.58
-% 0.2 ; 1e4 ; 2 ; romance ; 1.67
-% 0.2 ; 1e4 ; 2.5 ; romance ; 1.47
-
-% 0.2 ; 1e5 ; 1.5 ; romance ; 1.57
-% 0.2 ; 1e5 ; 2 ; romance ; 1.45
-% 0.2 ; 1e5 ; 2.5 ; horror ; 1.56
-
-% 0.2 ; 1e6 ; 2 ; romance ; 5.01
-
-
-
-% 0.1 ; 1e4 ; 2; horror ; 1.77
-
-% 0.2 ; 1e3 ; 2 ; horror ; 2.37
-
-% 0.2 ; 1e4 ; 1.5 ; horror ; 1.9
-% 0.2 ; 1e4 ; 2 ; horror ; 1.76
-% 0.2 ; 1e4 ; 6 ; horror ; 1.88
-
-% 0.2 ; 1e5 ; 1.5 ; horror ; 1.78
-% 0.2 ; 1e5 ; 2 ; horror ; 2.02
-% 0.2 ; 1e5 ; 2.5 ; horror ; 1.78
-
-% 0.2 ; 1e6 ; 2 ; horror ; 5.71
-
-
-
-% 0.1 ; 1e3 ; 2 ; all ; 2.07
-% 0.1 ; 1e4 ; 2 ; all ; 1.62
-% 0.1 ; 1e5 ; 2 ; all ; 1.56
-
-% 0.2 ; 1e3 ; 2 ; all ; 2.29
-
-% 0.2 ; 1e4 ; 1.5 ; all ; 1.58 
-% 0.2 ; 1e4 ; 2 ; all ; 1.64
-% 0.2 ; 1e4 ; 2.5 ; all ; 1.60
-
-% 0.2 ; 1e5 ; 1.5 ; all ; 1.65
-% 0.2 ; 1e5 ; 2 ; all ; 1.63
-% 0.2 ; 1e5 ; 2.5 ; all ; 1.51
-% 0.2 ; 1e5 ; 3 ; all ; 1.58
-
-% 0.2 ; 1e6 ; 2 ; all ; 4.46
