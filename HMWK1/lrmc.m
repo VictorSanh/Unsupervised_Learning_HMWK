@@ -19,7 +19,7 @@ function [A, mse] = lrmc(X, W, tau, beta)
     %Z_current = beta*W.*X;    
 
     for k=1:max_iter
-        [U, S, V] = svd(W.*Z_current);
+        [U, S, V] = svd(W.*Z_current, 'econ');
         A_next = U*singular_value_threshold(S, tau)*V';
         Z_next = Z_current + beta*(W.*(X-A_next));
         
