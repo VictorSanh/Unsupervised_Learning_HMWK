@@ -12,9 +12,9 @@ function [Y] = spectral_clustering(Affinity, num_classes)
 %  Y:
 %      Cluster assignments
 
-L =  build_laplacian(Affinity, laplacian_normalization);
+L =  build_laplacian(Affinity, 'unn');
 
-if nargin < 3
+if nargin < 2
     num_classes = 2;
 end
 
