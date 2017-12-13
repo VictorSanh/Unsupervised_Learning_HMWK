@@ -1,7 +1,6 @@
 function [L] =  build_laplacian(Affinity, laplacian_normalization)
 %  [L] =  build_laplacian(X, graph_param, laplacian_normalization)
-%      a skeleton function to construct a laplacian from data,
-%      needs to be completed
+%      a skeleton function to construct a laplacian from affinity matrix
 %
 %  Input
 %  X:

@@ -1,6 +1,6 @@
 function [Y] = spectral_clustering(Affinity, num_classes, laplacian_normalization)
 %  [Y] = spectral_clustering(L, chosen_eig_indices, num_classes)
-%      a skeleton function to perform spectral clustering, needs to be completed
+%      a skeleton function to perform spectral clustering
 %
 %  Input
 %  L:

@@ -25,13 +25,15 @@ for i=1:nb_points
 end
 W = 1/2*(W+W');
 
-algorithm = 'ssc';
+algorithm = 'k-subspaces';
 
 if strcmp(algorithm, 'spectral_clustering')
     groups = spectral_clustering(W, num_classes);
 
 elseif strcmp(algorithm, 'k-subspaces')
-    [groups, obj] = ksubspaces(X, num_classes, d, replicates);
+    replicates = 2;
+    d = {1,2,3};
+    [groups, obj] = ksubspaces(X, 3, d, replicates);
 
 elseif strcmp(algorithm, 'ssc')
     tau = 20;

@@ -1,5 +1,5 @@
 function [C,T]=hungarian(A)
-%HUNGARIAN Solve the Assignment problem using the Hungarian method.
+%HUNGARIAN Hungarian method.
 %
 %[C,T]=hungarian(A)
 %A - a square cost matrix.
