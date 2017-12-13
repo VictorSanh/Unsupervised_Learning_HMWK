@@ -23,8 +23,6 @@ if strcmp(laplacian_normalization, 'unn')
     L = D - W;
 elseif strcmp(laplacian_normalization, 'sym')
     L = inv(D)^(1/2)*(D - W)*inv(D)^(1/2);
-elseif strcmp(laplacian_normalization, 'rw')
-    L = eye(size(W)) - inv(D)*W;
 else
     error('unkown normalization mode')
 end

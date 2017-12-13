@@ -3,8 +3,10 @@ function groups = SSC(data, n, tau, mu2)
 % n: number of clusters
 % tau, mu2: parameter
 
+% sparse optimization program
 [C] = lasso_min(data, mu2, tau);
-W = C + C';
-[Y] = spectral_clustering(W, n, 'sym');
-groups = Y;
+% affinity matrix
+W = abs(C) + abs(C)';
+% normalized spectral clustering
+[groups] = spectral_clustering(W, n, 'sym');
 end

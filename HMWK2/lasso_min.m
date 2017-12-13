@@ -6,7 +6,7 @@ C1 = zeros(N,N);
 Lambda2 = zeros(N,N);
 err = 2*10^-3; 
 i = 1;
-while ( err(i) > thr1 && i < maxIter )
+while err(i) > thr1
     % updating Z
     Z = A * (tau*(data'*data)+mu2*(C1-Lambda2/mu2));
     Z = Z - diag(diag(Z));
