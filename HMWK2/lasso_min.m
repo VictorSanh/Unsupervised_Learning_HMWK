@@ -6,6 +6,7 @@ C1 = zeros(N,N);
 Lambda2 = zeros(N,N);
 err = 2*10^-3; 
 i = 1;
+thr1 = 5*10^-4;
 while err(i) > thr1
     % updating Z
     Z = A * (tau*(data'*data)+mu2*(C1-Lambda2/mu2));
@@ -17,8 +18,9 @@ while err(i) > thr1
     Lambda2 = Lambda2 + mu2 * (Z - C2);
     % computing errors
     err(i+1) = max(max(abs(Z-C2)));
-
+    
     C1 = C2;
     i = i + 1;
+    
 end
 end

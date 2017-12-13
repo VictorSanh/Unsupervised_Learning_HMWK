@@ -5,11 +5,14 @@ function error = clustering_error(label, groups)
 % permute labels of L2 to match L1 as good as possible
 label = label(:);
 groups = groups(:);
+if size(label) ~= size(groups)
+    error('Label (ground truth) size must be equal to groups (predictions) size');
+end
 
 label1 = unique(label);
-nclass1 = length(label);
+nclass1 = length(label1);
 label2 = unique(groups);
-nclass2 = length(groups);
+nclass2 = length(label2);
 
 nclass = max(nclass1,nclass2);
 G = zeros(nclass);

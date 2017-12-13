@@ -25,8 +25,20 @@ for i=1:nb_points
 end
 W = 1/2*(W+W');
 
-%%%%%
-%Spectral clustering
-%%%%%
-out = spectral_clustering(W, num_classes);
+algorithm = 'ssc';
 
+if strcmp(algorithm, 'spectral_clustering')
+    groups = spectral_clustering(W, num_classes);
+
+elseif strcmp(algorithm, 'k-subspaces')
+    [groups, obj] = ksubspaces(X, num_classes, d, replicates);
+
+elseif strcmp(algorithm, 'ssc')
+    tau = 20;
+    mu2 = 800;
+    groups = SSC(X, num_classes, tau, mu2);
+end
+
+% error
+error = clustering_error(y, groups);
+fprintf('Error: %2.4f', error);
