@@ -1,4 +1,4 @@
-function [Y] = spectral_clustering(Affinity, num_classes)
+function [Y] = spectral_clustering(Affinity, num_classes, laplacian_normalization)
 %  [Y] = spectral_clustering(L, chosen_eig_indices, num_classes)
 %      a skeleton function to perform spectral clustering, needs to be completed
 %
@@ -11,8 +11,11 @@ function [Y] = spectral_clustering(Affinity, num_classes)
 %  Output
 %  Y:
 %      Cluster assignments
+if nargin < 3
+    laplacian_normalization = 'unn';
+end
 
-L =  build_laplacian(Affinity, 'unn');
+L =  build_laplacian(Affinity, laplacian_normalization);
 
 if nargin < 2
     num_classes = 2;

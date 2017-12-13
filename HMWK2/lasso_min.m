@@ -1,14 +1,14 @@
-function [C1] = lasso_min(data)
+function [C1] = lasso_min(data, mu2, tau)
 N = size(data,2);
 % initialization
-A = inv(mu1*(data'*data)+mu2*eye(N));
+A = inv(tau*(data'*data)+mu2*eye(N));
 C1 = zeros(N,N);
 Lambda2 = zeros(N,N);
 err = 2*10^-3; 
 i = 1;
 while ( err(i) > thr1 && i < maxIter )
     % updating Z
-    Z = A * (mu1*(data'*data)+mu2*(C1-Lambda2/mu2));
+    Z = A * (tau*(data'*data)+mu2*(C1-Lambda2/mu2));
     Z = Z - diag(diag(Z));
     % updating C2
     C2 = max(0,(abs(Z+Lambda2/mu2) - 1/mu2*ones(N))) .* sign(Z+Lambda2/mu2);
