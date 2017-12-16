@@ -11,6 +11,7 @@ end
 
 label1 = unique(label);
 nclass1 = length(label1);
+
 label2 = unique(groups);
 nclass2 = length(label2);
 
@@ -22,10 +23,11 @@ for i=1:nclass1
 	end
 end
 
-[c,t] = hungarian(-G);
+[c, ~] = hungarian(-G);
 grps = zeros(size(groups));
 for i=1:nclass2
-    grps(groups == groups(i)) = label(c(i));
+    grps(groups == label2(i)) = label1(c(i));
 end
-error = sum(label ~= grps) / length(label);
+error = mean(label ~= grps);
+
 end
