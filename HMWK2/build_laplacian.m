@@ -1,6 +1,5 @@
 function [L] =  build_laplacian(Affinity, laplacian_normalization)
 %  [L] =  build_laplacian(X, graph_param, laplacian_normalization)
-%      a skeleton function to construct a laplacian from affinity matrix
 %
 %  Input
 %  X:
@@ -22,6 +21,8 @@ if strcmp(laplacian_normalization, 'unn')
     L = D - W;
 elseif strcmp(laplacian_normalization, 'sym')
     L = inv(D)^(1/2)*(D - W)*inv(D)^(1/2);
+elseif strcmp(laplacian_normalization, 'rw')
+    L = eye(size(W)) - inv(D)*W;
 else
     error('unkown normalization mode')
 end

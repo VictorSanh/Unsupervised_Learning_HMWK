@@ -1,4 +1,4 @@
-function error = clustering_error(label, groups)
+function err = clustering_error(label, groups)
 % label: N-dimensional vector with ground truth labels for a dataset with N points
 % groups: N-dimensional vector with estimated labels for a dataset with N points
 
@@ -28,6 +28,7 @@ grps = zeros(size(groups));
 for i=1:nclass2
     grps(groups == label2(i)) = label1(c(i));
 end
-error = mean(label ~= grps);
+
+err = mean(label ~= grps);
 
 end

@@ -23,8 +23,8 @@ end
 
 [U,E] = eig(L);
 
-[eigenvalues_sorted,reorder] = sort(diag(E));
+[~, reorder] = sort(diag(E));
 
-U = U(:,reorder(num_classes));
+U = U(:,reorder(1:num_classes));
 
-Y = kmeans(U, num_classes);
+Y = kmeans(U, num_classes, 'replicates', 15);
