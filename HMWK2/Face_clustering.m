@@ -8,11 +8,12 @@ num_classes = length(unique(y));
 
 
 
-algorithm = 'spectral_clustering';
+algorithm = 'k-subspaces';
 
 if strcmp(algorithm, 'spectral_clustering')
     W = build_affinity(X, mean(var(X)));
     groups = spectral_clustering(W, num_classes, 'rw');
+    
 
 elseif strcmp(algorithm, 'k-subspaces')
     replicates = 2;

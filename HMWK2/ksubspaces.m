@@ -6,9 +6,7 @@ function [global_groups, global_obj] = ksubspaces(data, n, d, replicates, ground
 
     [D,N] = size(data);
     max_iter = 1;
-    groups_history = zeros(replicates, N);
-    obj_history = {};
-    err_history = zeros(replicates, 1);
+    err = 1e5;
     
     for e=1:replicates
         fprintf("Run %i\n", e);
@@ -19,7 +17,7 @@ function [global_groups, global_obj] = ksubspaces(data, n, d, replicates, ground
         y = {} ;
         U = {} ;
         for i = 1:n
-            temp = eye(D) ;%RandOrthMat(D);
+            temp = RandOrthMat(D); %eye(D) ;
             U{i} = temp(:, 1:d{i}); 
         end
 
@@ -48,7 +46,7 @@ function [global_groups, global_obj] = ksubspaces(data, n, d, replicates, ground
                 means(:,i) = num/dem ;
 
                 z = repmat(W(i,:), D, 1).*(data - means(:,i));
-                [V, E] = eigs(z*z');
+                [V, E] = eig(z*z');
                 [~, reorder] = sort(diag(E));
                 U{i} = V(:,reorder(1:d{i})); 
 
@@ -60,13 +58,13 @@ function [global_groups, global_obj] = ksubspaces(data, n, d, replicates, ground
             end
         end
         
-        [~ , groups_history(e, :)] = max(W);
-       	obj_history{e} = {y, U};
-        err_history(e) = clustering_error(groups_history(e, :), ground_truth);
+        current_group = max(W);
+        current_error = clustering_error(current_group, ground_truth);
+       	if (current_error < err)
+            global_obj = {y, U};
+            err = current_error;
+            global_groups = current_group;
+        end
+            
     end
-
-    
-    [~, i] = min(err_history);
-    global_groups = groups_history(i, :);
-    global_obj = obj_history{i};
 end
