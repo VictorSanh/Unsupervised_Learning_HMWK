@@ -1,9 +1,9 @@
-function M=RandOrthMat(n, tol)
+function M=RandOrthMat(n, d, tol)
 
 % from https://fr.mathworks.com/matlabcentral/fileexchange/11783-randorthmat
 
 % M = RANDORTHMAT(n)
-% generates a random n x n orthogonal real matrix.
+% generates a random n x d orthogonal real matrix.
 %
 % M = RANDORTHMAT(n,tol)
 % explicitly specifies a thresh value that measures linear dependence
@@ -16,7 +16,7 @@ function M=RandOrthMat(n, tol)
 % (c) Ofek Shilon , 2006.
 
 
-    if nargin==1
+    if nargin==2
 	  tol=1e-6;
     end
     
@@ -31,7 +31,7 @@ function M=RandOrthMat(n, tol)
 
     M(:,1) = vi ./ norm(vi);
     
-    for i=2:n
+    for i=2:d %Take only the d first columns
 	  nrm = 0;
 	  while nrm<tol
 		vi = randn(n,1);

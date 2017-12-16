@@ -16,9 +16,10 @@ if strcmp(algorithm, 'spectral_clustering')
     
 
 elseif strcmp(algorithm, 'k-subspaces')
-    replicates = 2;
-    d = {1,2,3};
-    [groups, obj] = ksubspaces(X, 3, d, replicates);
+    replicates = 1;
+    max_iter = 100;
+    d = repmat({3}, num_classes, 1);
+    [groups, obj] = ksubspaces(X, num_classes, d, replicates, max_iter, y);
 
 elseif strcmp(algorithm, 'ssc')
     tau = 20;
