@@ -26,7 +26,11 @@ end
 [c, ~] = hungarian(-G);
 grps = zeros(size(groups));
 for i=1:nclass2
-    grps(groups == label2(i)) = label1(c(i));
+    try
+        grps(groups == label2(i)) = label1(c(i));
+    catch
+        grps(groups == label2(i)) = 0 ;
+    end
 end
 
 err = mean(label ~= grps);
