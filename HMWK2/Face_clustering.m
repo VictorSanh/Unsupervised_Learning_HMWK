@@ -10,7 +10,7 @@ y_sub = y((y==1 | y==2));
 
 num_classes = length(unique(y_sub));
 
-algorithm = 'spectral_clustering';
+algorithm = 'ssc';
 
 if strcmp(algorithm, 'spectral_clustering')
     K = [num_classes, 3, 5, 10];
@@ -46,11 +46,40 @@ elseif strcmp(algorithm, 'k-subspaces')
     plot(replicates, list_error);
     
 elseif strcmp(algorithm, 'ssc')
-    tau = 20;
+    taus = [1, 10, 20, 50, 100];
     mu2 = 800;
+    list_error = [];
+    % Looping over tau
+    for k=1:length(taus)
+        groups = SSC(X_sub, num_classes, taus(k), mu2);
+        error = clustering_error(y_sub, groups);
+        list_error(k) = error ;
+        fprintf('Error: %2.4f\n', error);
+    end
+    [best_error, tau_opt] = min(list_error);
+    fprintf('The best Tau value is : %d\n', taus(tau_opt));
+    figure();
+    plot(taus, list_error); 
+    
+    mu2s = [100, 200, 500, 800, 1000];
+    list_error = [];
+    % Looping over mu2
+    for k=1:length(mu2s)
+        groups = SSC(X_sub, num_classes, taus(tau_opt), mu2s(k));
+        error = clustering_error(y_sub, groups);
+        list_error(k) = error ;
+        fprintf('Error: %2.4f\n', error);
+    end
+    [best_error, mu2_opt] = min(list_error);
+    fprintf('The best mu2 value is : %d\n', mu2s(mu2_opt));
+    figure();
+    plot(taus, list_error); 
+    
+    tau = taus(tau_opt);
+    mu2 = mu2s(mu2_opt);
     groups = SSC(X_sub, num_classes, tau, mu2);
 end
 
 % error
-error = clustering_error(y_sub, groups);
-fprintf('Error: %2.4f\n', error);  
+% error = clustering_error(y_sub, groups);
+% fprintf('Error: %2.4f\n', error);  
