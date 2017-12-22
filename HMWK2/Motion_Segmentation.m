@@ -36,7 +36,24 @@ end
 algorithm = 'k-subspaces';
 
 if strcmp(algorithm, 'spectral_clustering')
-    groups = spectral_clustering(W, num_classes);
+    K = [1, 2, 3, 4, 5, 10, 20];
+    Sig = [1e-1, 5e-1, 1, 5, 10];
+    errors =zeros(length(K), length(Sig));
+    
+    for i=1:length(K)
+        for j=1:length(Sig)
+            W = build_affinity(X, K(i), Sig(j));
+            groups = spectral_clustering(W, n, 'unn');
+            errors(i, j) = clustering_error(s, groups);
+            fprintf('Error: %2.4f\n', errors(i, j));
+        end
+    end
+    
+    h = heatmap(Sig, K, errors);
+
+    h.Title = 'Spectral Clustering - Motion Segmentation';
+    h.XLabel = 'Sigma2';
+    h.YLabel = 'K';
 
 elseif strcmp(algorithm, 'k-subspaces')
     replicates = [50, 100, 500, 800, 1000];

@@ -15,7 +15,7 @@ function [L] =  build_laplacian(Affinity, laplacian_normalization)
 
 W = Affinity;
 
-D = diag(sum(W,2));
+D = diag(sum(W));
 
 if strcmp(laplacian_normalization, 'unn')
     L = D - W;

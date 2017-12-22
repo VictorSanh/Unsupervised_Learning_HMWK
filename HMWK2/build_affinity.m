@@ -1,9 +1,8 @@
-function W = build_affinity(X, sigma2)
-
-k = floor(sqrt(size(X, 2)));
+function W = build_affinity(X, k, sigma2)
 
 similarities = pdist2(X', X', 'euclidean');
 similarities = exp(-similarities./(2*sigma2));
+
 
 nb_points = size(X, 2);
 W = zeros(nb_points, nb_points);

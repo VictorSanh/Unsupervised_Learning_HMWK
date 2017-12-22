@@ -5,40 +5,45 @@ X = EYALEB_DATA;
 y = EYALEB_LABEL;
 
 % Search for the best parameters
-X_sub = X(:, (y==1 | y==2));
-y_sub = y((y==1 | y==2));
+X_sub = X(:, (1<=y & y<=2));
+y_sub = y((1<=y & y<=2));
 
-N = size(X_sub, 2);
-
-% PCA to dataset
-Dim = 18 ;
-[U, S, V] = svd(X_sub, 'econ');
-X_sub = X_sub  - mean(X_sub,2)*ones (1, N);
-X_sub = U(:,1:Dim)'*X_sub;
-
-% X_sub = normc(X_sub);
 
 num_classes = length(unique(y_sub));
 
 algorithm = 'k-subspaces';
 
 if strcmp(algorithm, 'spectral_clustering')
-    K = [num_classes, 3, 5, 10];
-    W = build_affinity(X_sub, mean(var(X_sub)));
-    list_error = [];
-    % Looping over K
-    for k=1:length(K)
-        groups = spectral_clustering(W, K(k), 'rw');
-        error = clustering_error(y_sub, groups);
-        list_error(k) = error ;
-        fprintf('Error: %2.4f\n', error);
+    K = [2, 3, 4, 5, 10, 20];
+    Sig = [50, 75, 1e2, 500, 750, 1e3, 5e3];
+    
+    errors =zeros(length(K), length(Sig));
+
+    for i=1:length(K)
+        for j=1:length(Sig)
+            W = build_affinity(X_sub, K(i), Sig(j));
+            groups = spectral_clustering(W, num_classes, 'rw');
+            errors(i, j) = clustering_error(y_sub, groups);
+            fprintf('Error: %2.4f\n', errors(i, j));
+        end
     end
-    [best_K, K_opt] = min(list_error);
-    fprintf('The best replicate value is : %d\n', K(K_opt));
-    figure();
-    plot(K, list_error);    
+
+    h = heatmap(Sig, K, errors);
+
+    h.Title = 'Spectral Clustering - Clustering Errors';
+    h.XLabel = 'Sigma2';
+    h.YLabel = 'K';   
 
 elseif strcmp(algorithm, 'k-subspaces')
+    N = size(X_sub, 2);
+    % X_sub = normc(X_sub);
+    
+    % PCA to dataset
+    Dim = 18 ;
+    [U, S, V] = svd(X_sub, 'econ');
+    X_sub = X_sub  - mean(X_sub,2)*ones (1, N);
+    X_sub = U(:,1:Dim)'*X_sub;
+    
     replicates = [10, 100, 500, 800, 1000];
     max_iter = 300;
     d = repmat({5}, num_classes, 1);
