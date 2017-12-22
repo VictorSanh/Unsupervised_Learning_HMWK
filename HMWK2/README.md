@@ -26,6 +26,6 @@ the three algorithms on this dataset.
 - **ksubspaces.m** : function for the K-Subspaces algorithm  
 - **lasso_min.m** : function for Matrix LASSO Minimization by ADMM  
 - **Motion_Segmentation.m** : Application 2  
-- **RandOrthMat.m** : function to generate a random n x n orthogonal real matrix  
+- **RandOrthMat.m** : function to generate a random n x d orthogonal real matrix  
 - **spectral_clustering.m** : function to perform spectral clustering  
 - **SSC.m** : function to perform Sparse Subspace Clustering
