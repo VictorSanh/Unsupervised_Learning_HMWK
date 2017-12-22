@@ -1,10 +1,10 @@
 clear all
 
 % open data
-d = dir('Hopkins155');
+d = dir('data/Hopkins155/');
 for i = 1:length(d)
 	if ( (d(i).isdir == 1) && ~strcmp(d(i).name,'.') && ~strcmp(d(i).name,'..') )
-		filepath = d(i).name;
+		filepath = strcat('data/Hopkins155/', d(i).name, '/');
 		eval(['cd ' filepath]);
 
 		f=dir;
@@ -18,7 +18,9 @@ for i = 1:length(d)
 		end
 		eval(['load ' f(ind).name]);
 		cd ..
-
+        cd ..
+        cd ..
+ 
 		if (foundValidData)
 			n = max(s);
 			N = size(x,2);
@@ -31,15 +33,29 @@ end
 
 
 % Clustering
-algorithm = 'ssc';
+algorithm = 'k-subspaces';
 
 if strcmp(algorithm, 'spectral_clustering')
     groups = spectral_clustering(W, num_classes);
 
 elseif strcmp(algorithm, 'k-subspaces')
-    replicates = 2;
+    replicates = [50, 100, 500, 800, 1000];
+    max_iter = 300;
     d = {1,2,3};
-    [groups, obj] = ksubspaces(X, 3, d, replicates);
+    list_error = [];
+    % Looping over replicate values
+    for r=1:length(replicates)
+        [groups, obj] = ksubspaces(X, 3, d, replicates(r), max_iter, s);
+        error = clustering_error(s, groups);
+        list_error(r) = error ;
+    end
+    figure();
+    plot(replicates, list_error);
+    xlabel('Number of restarts');
+    ylabel('Clustering error');
+
+
+
 
 elseif strcmp(algorithm, 'ssc')
     tau = 20;
@@ -48,5 +64,5 @@ elseif strcmp(algorithm, 'ssc')
 end
 
 % error
-error = clustering_error(y, groups);
+error = clustering_error(s, groups);
 fprintf('Error: %2.4f', error);
