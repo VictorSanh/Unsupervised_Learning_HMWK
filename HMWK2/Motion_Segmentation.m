@@ -33,7 +33,7 @@ end
 
 
 % Clustering
-algorithm = 'k-subspaces';
+algorithm = 'ssc';
 
 if strcmp(algorithm, 'spectral_clustering')
     K = [1, 2, 3, 4, 5, 10, 20];
@@ -75,9 +75,24 @@ elseif strcmp(algorithm, 'k-subspaces')
 
 
 elseif strcmp(algorithm, 'ssc')
-    tau = 20;
-    mu2 = 800;
-    groups = SSC(X, num_classes, tau, mu2);
+    taus = [10, 50, 100, 200, 500, 1000];
+    mu2s = [1, 5, 10, 20, 50, 100];
+    errors =zeros(length(taus), length(mu2s));
+    
+    for i=1:length(taus)
+        for j=1:length(mu2s)
+            groups = SSC(X, n, taus(i), mu2s(j));
+            errors(i, j) = clustering_error(s, groups);
+            fprintf('Error: %2.4f\n', errors(i, j));
+        end
+    end
+    
+    h = heatmap(mu2s, taus, errors);
+
+    h.Title = 'Sparse Subspace Clustering - Motion Segmentation';
+    h.XLabel = 'mu2';
+    h.YLabel = 'tau';
+    %groups = SSC(X, n, tau, mu2);
 end
 
 % error
